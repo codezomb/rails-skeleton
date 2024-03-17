@@ -1,0 +1,25 @@
+source 'https://rubygems.org'
+
+ruby '3.2.3'
+
+gem 'rails',  '~> 7'
+gem 'pg',     '~> 1'
+gem 'puma',   '>= 5'
+
+# Authentication
+
+gem 'devise_invitable', '~> 2'
+gem 'devise',           '~> 4'
+
+# Misc Gems
+
+gem 'bootsnap',         '~> 1', require: false
+gem 'jbuilder',         '~> 2'
+gem 'rack-cors',        '~> 2'
+gem 'redis',            '~> 4'
+
+# Groups
+
+group :development, :test do
+  gem 'debug'
+end

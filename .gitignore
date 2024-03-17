@@ -1,0 +1,15 @@
+public/assets/*
+dist/!.keep
+dist/*
+node_modules
+coverage
+cache
+tmp
+log
+
+PhoenixDesignSeeds.zip
+monoImportLogs.txt
+.DS_Store
+*.swp
+.env
+._*

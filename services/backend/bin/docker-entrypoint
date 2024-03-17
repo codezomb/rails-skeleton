@@ -1,0 +1,84 @@
+#!/bin/bash
+
+export RAILS_ENV=${RAILS_ENV:=development}
+export DB_HOSTNAME=${DB_HOSTNAME:=postgres}
+export DB_PORT=${DB_PORT:=5432}
+
+wait_for_services() {
+  wait-for-it --host=$DB_HOSTNAME --port=$DB_PORT -t 15
+}
+
+ensure_safety() {
+  [ "$RAILS_ENV" != 'production' ] || exit 1
+}
+
+# ---------------------------------------------------------------------------------
+# Testing Functions
+# ---------------------------------------------------------------------------------
+
+run-bundle-audit() {
+  bundle exec bundle audit update && bundle audit check
+}
+
+run-brakeman() {
+  bundle exec brakeman --no-pager -z
+}
+
+run-rubocop() {
+  bundle exec rubocop -c .rubocop.yml -f tap
+}
+
+run-spec() {
+  wait_for_services
+  VERBOSE=false bundle exec rails db:migrate:reset
+  bundle exec rspec
+}
+
+# ---------------------------------------------------------------------------------
+# Utility Functions
+# ---------------------------------------------------------------------------------
+
+run-seeds() {
+  ensure_safety && wait_for_services
+  bundle exec rails db:migrate:reset
+  bundle exec rails db:seed
+}
+
+# ---------------------------------------------------------------------------------
+# Application Functions
+# ---------------------------------------------------------------------------------
+
+run-app() {
+  wait_for_services && bundle exec puma -C config/puma.rb
+}
+
+run-job() {
+  wait_for_services && bundle exec shoryuken -R
+}
+
+run-web() {
+  nginx -c /opt/app/config/nginx.conf
+}
+
+# ---------------------------------------------------------------------------------
+# Initialization
+# ---------------------------------------------------------------------------------
+
+args=("$@")
+task=$1
+shift
+
+# Run the specified command
+case $task in
+  bundle-audit) run-bundle-audit ;;
+  brakeman)     run-brakeman ;;
+  rubocop)      run-rubocop ;;
+  seeds)        run-seeds ;;
+  spec)         run-spec ;;
+  app)          run-app ;;
+  job)          run-job ;;
+  web)          run-web ;;
+  *)
+    eval "${args[@]}"
+    ;;
+esac
