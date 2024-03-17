@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
-  devise_for :users
+  defaults format: :json do
+    devise_for :users
 
-
-  root to: 'root#index'
+    root to: 'root#index'
+  end
 end

@@ -1,7 +1,5 @@
 class ApplicationController < ActionController::API
-  private
+  include ActionController::MimeResponds
 
-  def authenticate
-    rodauth.require_account
-  end
+  respond_to :json
 end

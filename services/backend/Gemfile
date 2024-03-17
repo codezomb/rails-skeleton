@@ -6,20 +6,15 @@ gem 'rails',  '~> 7'
 gem 'pg',     '~> 1'
 gem 'puma',   '>= 5'
 
-# Authentication
-
-gem 'devise_invitable', '~> 2'
-gem 'devise',           '~> 4'
-
-# Misc Gems
-
 gem 'bootsnap',         '~> 1', require: false
+gem 'devise',           '~> 4'
+gem 'devise_invitable', '~> 2'
+gem 'devise-jwt',       '~> 0'
 gem 'jbuilder',         '~> 2'
 gem 'rack-cors',        '~> 2'
-gem 'redis',            '~> 4'
-
-# Groups
+gem 'redis-rails',      '~> 5'
 
 group :development, :test do
+  gem 'pgreset'
   gem 'debug'
 end

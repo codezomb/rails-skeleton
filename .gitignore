@@ -7,8 +7,8 @@ cache
 tmp
 log
 
-PhoenixDesignSeeds.zip
-monoImportLogs.txt
+credentials.yml*
+master.key
 .DS_Store
 *.swp
 .env

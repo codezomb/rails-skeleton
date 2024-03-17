@@ -1,7 +1,7 @@
 class RootController < ApplicationController
-  before_action :authenticate
+  before_action :authenticate_user!
 
   def index
-    render json: {}
+    render json: { }
   end
 end
