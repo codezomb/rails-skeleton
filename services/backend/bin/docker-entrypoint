@@ -35,16 +35,6 @@ run-spec() {
 }
 
 # ---------------------------------------------------------------------------------
-# Utility Functions
-# ---------------------------------------------------------------------------------
-
-run-seeds() {
-  ensure_safety && wait_for_services
-  bundle exec rails db:migrate:reset
-  bundle exec rails db:seed
-}
-
-# ---------------------------------------------------------------------------------
 # Application Functions
 # ---------------------------------------------------------------------------------
 
@@ -73,7 +63,6 @@ case $task in
   bundle-audit) run-bundle-audit ;;
   brakeman)     run-brakeman ;;
   rubocop)      run-rubocop ;;
-  seeds)        run-seeds ;;
   spec)         run-spec ;;
   app)          run-app ;;
   job)          run-job ;;

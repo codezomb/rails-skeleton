@@ -1,0 +1,86 @@
+on:
+  push: {}
+ 
+jobs:
+  build-backend:
+    name: Build Backend Docker Image
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/build-push-action@v5
+        with:
+          outputs:    type=docker,dest=/tmp/hydra-backend.tar
+          context:    "{{defaultContext}}:services/backend"
+          cache-from: type=gha
+          cache-to:   type=gha,mode=max
+          tags:       hydra-backend
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          path: /tmp/hydra-backend.tar
+          name: hydra-backend
+
+  build-frontend:
+    name: Build Frontend Docker Image
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/build-push-action@v5
+        with:
+          outputs:    type=docker,dest=/tmp/hydra-frontend.tar
+          context:    "{{defaultContext}}:services/frontend"
+          cache-from: type=gha
+          cache-to:   type=gha,mode=max
+          tags:       hydra-frontend
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          path: /tmp/hydra-frontend.tar
+          name: hydra-frontend
+  
+  bundle-audit:
+    name: Bundle Audit
+    runs-on: ubuntu-20.04
+    needs: build-backend
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/download-artifact@v3
+        with:
+          name: hydra-backend
+          path: /tmp 
+      - run: |
+          docker load --input /tmp/hydra-backend.tar
+          docker run --rm hydra-backend bundle-audit
+
+  brakeman:
+    name: Brakeman
+    runs-on: ubuntu-20.04
+    needs: build-backend
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/download-artifact@v3
+        with:
+          name: hydra-backend
+          path: /tmp 
+      - run: |
+          docker load --input /tmp/hydra-backend.tar
+          docker run --rm hydra-backend brakeman
+
+  rspec:
+    name: RSpec
+    runs-on: ubuntu-20.04
+    needs: build-backend
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/download-artifact@v3
+        with:
+          name: hydra-backend
+          path: /tmp 
+      - run: |
+          docker compose pull postgres redis
+      - run: |
+          docker load --input /tmp/hydra-backend.tar
+          docker compose run --quiet-pull --rm \
+            -e RAILS_ENV=test backend spec

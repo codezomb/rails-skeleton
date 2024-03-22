@@ -7,8 +7,6 @@ Rails.application.routes.draw do
   scope(path: '/api') do
     defaults format: :json do
       devise_for :users
-
-      root to: 'root#index'
     end
   end
 end

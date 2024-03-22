@@ -7,5 +7,6 @@ COPY ./Gemfile* ./
 RUN bundle install
 
 WORKDIR /opt/app
+COPY . ./
 
 ENTRYPOINT ["/opt/app/bin/docker-entrypoint"]
