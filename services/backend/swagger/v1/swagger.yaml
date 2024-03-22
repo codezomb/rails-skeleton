@@ -1,0 +1,178 @@
+---
+openapi: 3.0.1
+info:
+  version: v1
+  title: API V1
+components:
+  securitySchemes:
+    bearerAuth:
+      scheme: bearer
+      type: http
+      in: header
+paths:
+  "/api/users/confirmation":
+    post:
+      summary: Request confirmation token
+      description: Request a confirmation token
+      tags:
+      - Email Confirmation
+      parameters: []
+      responses:
+        '422':
+          description: unprocessable entity
+          content:
+            application/json:
+              example:
+                errors:
+                  email:
+                  - was already confirmed, please try signing in
+        '201':
+          description: created
+          content:
+            application/json:
+              example: {}
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": schemas/confirmation.json#/definitions/request_body
+    get:
+      summary: Complete account confirmation
+      description: Complete account confirmation
+      tags:
+      - Email Confirmation
+      parameters:
+      - name: confirmation_token
+        in: query
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              example:
+                id: 3
+                email: mac@luettgen.test
+                created_at: '2024-03-21T22:28:56.946Z'
+                updated_at: '2024-03-21T22:28:56.951Z'
+                jti: 407a74f2-588c-42cb-961e-1dedb50875f7
+  "/api/users/password":
+    put:
+      summary: Set a new password for the user
+      description: Set the users password
+      tags:
+      - Password Reset
+      parameters: []
+      responses:
+        '204':
+          description: no content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": schemas/password.json#/definitions/update_body
+    post:
+      summary: Request password reset token
+      description: Request a password reset token
+      tags:
+      - Password Reset
+      parameters: []
+      responses:
+        '201':
+          description: created
+          content:
+            application/json:
+              example: {}
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": schemas/password.json#/definitions/request_body
+  "/api/users/sign_in":
+    post:
+      summary: Request session token
+      description: Request a JWT token
+      tags:
+      - Authentication
+      parameters: []
+      responses:
+        '401':
+          description: unauthorized
+          content:
+            application/json:
+              example:
+                error: Invalid Email or password.
+              schema:
+                "$ref": schemas/session.json#/definitions/failure
+        '201':
+          description: created
+          content:
+            application/json:
+              example:
+                id: 7
+                email: thalia.kautzer@auer.example
+                created_at: '2024-03-21T22:28:57.085Z'
+                updated_at: '2024-03-21T22:28:57.089Z'
+                jti: e05d934f-e3c5-47e9-90ef-b622b76da9e6
+              schema:
+                "$ref": schemas/session.json#/definitions/success
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": schemas/session.json#/definitions/request_body
+  "/api/users/sign_out":
+    delete:
+      summary: Destroy session
+      description: Invalidate JWT Token
+      security:
+      - bearerAuth: []
+      tags:
+      - Authentication
+      responses:
+        '204':
+          description: no content
+  "/api/users/unlock":
+    post:
+      summary: Request unlock token
+      description: Request a unlock token
+      tags:
+      - Unlock
+      parameters: []
+      responses:
+        '422':
+          description: unprocessable entity
+          content:
+            application/json:
+              example:
+                errors:
+                  email:
+                  - was not locked
+        '201':
+          description: created
+          content:
+            application/json:
+              example: {}
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": schemas/unlock.json#/definitions/request_body
+    get:
+      summary: Complete account unlock
+      description: Complete account unlock
+      tags:
+      - Unlock
+      parameters:
+      - name: unlock_token
+        in: query
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              example:
+                id: 10
+                email: erin@farrell-dibbert.test
+                created_at: '2024-03-21T22:28:57.197Z'
+                updated_at: '2024-03-21T22:28:57.206Z'
+                jti: d55ef109-a761-4fce-a874-b332ddf4cf15

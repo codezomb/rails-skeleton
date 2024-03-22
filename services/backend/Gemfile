@@ -8,13 +8,21 @@ gem 'puma',   '>= 5'
 
 gem 'bootsnap',         '~> 1', require: false
 gem 'devise',           '~> 4'
-gem 'devise_invitable', '~> 2'
 gem 'devise-jwt',       '~> 0'
 gem 'jbuilder',         '~> 2'
 gem 'rack-cors',        '~> 2'
 gem 'redis-rails',      '~> 5'
+gem 'rswag',            '~> 2'
 
 group :development, :test do
-  gem 'pgreset'
+  gem 'brakeman',           require: false
+  gem 'bundler-audit',      require: false
+  gem 'database_cleaner',   require: false
   gem 'debug'
+  gem 'factory_bot_rails',  require: false
+  gem 'faker',              require: false
+  gem 'pgreset'
+  gem 'rspec-rails',        require: false
+  gem 'shoulda-matchers',   require: false
+  gem 'simplecov',          require: false
 end

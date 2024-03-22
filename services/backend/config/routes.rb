@@ -1,7 +1,14 @@
-Rails.application.routes.draw do
-  defaults format: :json do
-    devise_for :users
+# frozen_string_literal: true
 
-    root to: 'root#index'
+Rails.application.routes.draw do
+  mount Rswag::Api::Engine => '/api/docs'
+  mount Rswag::Ui::Engine => '/api/docs'
+
+  scope(path: '/api') do
+    defaults format: :json do
+      devise_for :users
+
+      root to: 'root#index'
+    end
   end
 end

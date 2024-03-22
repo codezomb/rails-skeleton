@@ -18,8 +18,6 @@ services:
     
     labels:
       - traefik.http.services.backend-service.loadbalancer.server.port=3000
-      - traefik.http.middlewares.backend-strip.stripprefix.prefixes=/api
-      - traefik.http.routers.backend.middlewares=backend-strip
       - traefik.http.routers.backend.rule=PathPrefix(`/api`)
       - traefik.http.routers.backend.entrypoints=web
       - traefik.enable=true

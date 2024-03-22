@@ -1,0 +1,29 @@
+{
+  "definitions" : {
+    "request_body" : {
+      "type" : "object",
+
+      "properties" : {
+        "user" : {
+          "type" : "object",
+
+          "properties" : {
+            "email" : {
+              "description" : "email address for account",
+              "example"     : "user@example.com",
+              "type"        : "string"
+            }
+          }
+        },
+
+        "required" : [
+          "email"
+        ]
+      },
+
+      "required" : [
+        "user"
+      ]
+    }
+  }
+}

@@ -1,0 +1,92 @@
+{
+  "definitions" : {
+    "request_body" : {
+      "type"       : "object",
+
+      "properties" : {
+        "user" : {
+          "type"       : "object",
+
+          "properties" : {
+            "password" : {
+              "description" : "password for account",
+              "example"     : "MyP@ssw0rd",
+              "type"        : "string"
+            },
+
+            "email" : {
+              "description" : "email address for account",
+              "example"     : "user@example.com",
+              "type"        : "string"
+            }
+          }
+        },
+
+        "required" : [
+          "password",
+          "email"
+        ]
+      },
+
+      "required" : [
+        "user"
+      ]
+    },
+
+    "success" : {
+      "type"       : "object",
+
+      "properties" : {
+        "created_at" : {
+          "description" : "Date the user account was created",
+          "example"     : "2024-03-17T08:30:33.756Z",
+          "type"        : "string"
+        },
+        
+        "updated_at" : {
+          "description" : "Date the user account was updated",
+          "example"     : "2024-03-18T18:59:54.370Z",
+          "type"        : "string"
+        },
+
+        "email" : {
+          "description" : "User account email",
+          "example"     : "user@example.com",
+          "type"        : "string"
+        },
+
+        "jti" : {
+          "description" : "Token session Key",
+          "example"     : "301b9af9-5e9c-4328-ad36-e578bfee9376",
+          "type"        : "string"
+        },
+
+        "id" : {
+          "description" : "User account ID",
+          "example"     : "1",
+          "type"        : "integer"
+        }
+      },
+
+      "required" : [
+        "created_at",
+        "updated_at",
+        "email",
+        "jti",
+        "id"
+      ]
+    },
+
+    "failure" : {
+      "type"       : "object",
+
+      "properties" : {
+        "error": {
+          "description" : "error message",
+          "example"     : "Invalid Email or password.",
+          "type"        : "string"
+        }
+      }
+    }
+  }
+}
