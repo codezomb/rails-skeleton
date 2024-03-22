@@ -22,4 +22,3 @@ staging:
 
 test:
   <<: *default
-  database: hydra_tes5

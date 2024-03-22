@@ -7,6 +7,7 @@ volumes:
 
 services:
   backend:
+    image: hydra-backend
     build:
       context: ./services/backend
 
@@ -27,6 +28,7 @@ services:
       - redis
 
   frontend:
+    image: hydra-frontend
     build:
       context: ./services/frontend
 
