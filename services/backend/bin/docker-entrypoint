@@ -5,7 +5,7 @@ export DB_HOSTNAME=${DB_HOSTNAME:=postgres}
 export DB_PORT=${DB_PORT:=5432}
 
 wait_for_services() {
-  wait-for-it --host=$DB_HOSTNAME --port=$DB_PORT -t 15
+  ./bin/wait --host=$DB_HOSTNAME --port=$DB_PORT -t 15
 }
 
 ensure_safety() {
