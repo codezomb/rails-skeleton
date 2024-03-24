@@ -85,7 +85,11 @@ jobs:
   rspec:
     name: RSpec
     runs-on: ubuntu-20.04
-    needs: build-backend
+    needs:
+      - build-backend
+      - bundle-audit
+      - brakeman
+      - rubocop
     steps:
       - uses: actions/checkout@v3
       - uses: actions/download-artifact@v3
