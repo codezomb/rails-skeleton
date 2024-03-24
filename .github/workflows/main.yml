@@ -68,6 +68,20 @@ jobs:
           docker load --input /tmp/hydra-backend.tar
           docker run --rm hydra-backend brakeman
 
+  rubocop:
+    name: Rubocop
+    runs-on: ubuntu-20.04
+    needs: build-backend
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/download-artifact@v3
+        with:
+          name: hydra-backend
+          path: /tmp 
+      - run: |
+          docker load --input /tmp/hydra-backend.tar
+          docker run --rm hydra-backend rubocop
+
   rspec:
     name: RSpec
     runs-on: ubuntu-20.04

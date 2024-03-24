@@ -3,6 +3,7 @@ services/frontend/dist/!.keep
 services/frontend/dist/*
 services/backend/coverage
 services/backend/cache
+services/backend/log
 services/backend/tmp
 
 credentials.yml*

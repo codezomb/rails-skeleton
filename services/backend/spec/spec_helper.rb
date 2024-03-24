@@ -1,32 +1,30 @@
-# frozen_string_literal: true
-
-ENV['RAILS_ENV'] = 'test'
+ENV["RAILS_ENV"] = "test"
 
 # -------------------------------------------------------
 # SimpleCov must be required before all things
 # -------------------------------------------------------
-require 'simplecov'
+require "simplecov"
 
-if ENV['RSWAG_DRY_RUN'].nil?
+if ENV["RSWAG_DRY_RUN"].nil?
   SimpleCov.minimum_coverage(98)
-  SimpleCov.start('rails') do
-    add_filter 'app/mailers/application_mailer.rb'
-    add_filter 'app/jobs/application_job.rb'
+  SimpleCov.start("rails") do
+    add_filter "app/mailers/application_mailer.rb"
+    add_filter "app/jobs/application_job.rb"
   end
 end
 
 # -------------------------------------------------------
 # Require all other files needed for testing
 # -------------------------------------------------------
-require File.expand_path('../config/environment', __dir__)
-require 'factory_bot_rails'
-require 'shoulda/matchers'
-require 'database_cleaner'
-require 'rspec/rails'
-require 'faker'
+require File.expand_path("../config/environment", __dir__)
+require "factory_bot_rails"
+require "shoulda/matchers"
+require "database_cleaner"
+require "rspec/rails"
+require "faker"
 
-Dir[Rails.root.join('spec', 'models', 'concerns', '*.rb')].each { |f| require f }
-Dir[Rails.root.join('spec', 'support', '**', '*.rb')].each { |f| require f }
+Dir[Rails.root.join("spec", "models", "concerns", "*.rb")].each { |f| require f }
+Dir[Rails.root.join("spec", "support", "**", "*.rb")].each { |f| require f }
 
 ActiveRecord::Migration.maintain_test_schema!
 
@@ -41,7 +39,7 @@ RSpec.configure do |config|
   config.infer_spec_type_from_file_location!
   config.use_transactional_fixtures = false
 
-  config.order = 'random'
+  config.order = "random"
 
   config.before(:suite) do
     DatabaseCleaner.strategy = :transaction
