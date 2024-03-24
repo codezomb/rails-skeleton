@@ -1,11 +1,9 @@
-public/assets/*
-dist/!.keep
-dist/*
-node_modules
-coverage
-cache
-tmp
-log
+services/frontend/node_modules
+services/frontend/dist/!.keep
+services/frontend/dist/*
+services/backend/coverage
+services/backend/cache
+services/backend/tmp
 
 credentials.yml*
 master.key
