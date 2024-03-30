@@ -6,13 +6,17 @@ gem 'rails',  '~> 7'
 gem 'pg',     '~> 1'
 gem 'puma',   '>= 5'
 
-gem 'bootsnap',         '~> 1', require: false
-gem 'devise',           '~> 4'
-gem 'devise-jwt',       '~> 0'
-gem 'jbuilder',         '~> 2'
-gem 'rack-cors',        '~> 2'
-gem 'redis-rails',      '~> 5'
-gem 'rswag',            '~> 2'
+gem 'bootsnap',           '~> 1', require: false
+gem 'devise',             '~> 4'
+gem 'devise-jwt',         '~> 0'
+gem 'implicit_resource',  '~> 0'
+gem 'jbuilder',           '~> 2'
+gem 'lograge',            '~> 0'
+gem 'rack-cors',          '~> 2'
+gem 'redis-rails',        '~> 5'
+gem 'rswag',              '~> 2'
+gem 'tzinfo-data',        '~> 1'
+gem 'vite_rails',         '~> 3'
 
 group :development, :test do
   gem 'brakeman',             require: false

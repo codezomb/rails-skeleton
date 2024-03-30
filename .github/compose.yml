@@ -1,0 +1,31 @@
+---
+version: '3.8'
+
+volumes:
+  app-storage:
+
+services:
+  backend:
+    image: hydra-backend
+    command: app
+    depends_on:
+      - postgres
+      - redis
+
+  frontend:
+    image: hydra-backend
+    command: web
+    depends_on:
+      - backend
+    ports:
+      - 80:80
+
+  # Misc Services
+
+  postgres:
+    image: public.ecr.aws/docker/library/postgres:14
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
+
+  redis:
+    image: public.ecr.aws/docker/library/redis:7

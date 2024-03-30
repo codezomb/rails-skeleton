@@ -1,10 +1,10 @@
-services/frontend/node_modules
-services/frontend/dist/!.keep
-services/frontend/dist/*
-services/backend/coverage
-services/backend/cache
-services/backend/log
-services/backend/tmp
+services/**/node_modules
+services/**/dist/!.keep
+services/**/dist/*
+services/**/coverage
+services/**/cache
+services/**/log
+services/**/tmp
 
 credentials.yml*
 master.key

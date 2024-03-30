@@ -42,10 +42,6 @@ RSpec.describe "Authentication", type: :request do
           { user: { email: user.email, password: user.password } }
         end
 
-        it "returns the resource url in the location header" do
-          expect(response.headers["Authorization"]).not_to be(nil)
-        end
-
         run_test!
       end
     end

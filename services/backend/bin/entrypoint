@@ -47,7 +47,7 @@ run-job() {
 }
 
 run-web() {
-  nginx -c /opt/app/config/nginx.conf
+  nginx -c /work/config/nginx.conf
 }
 
 # ---------------------------------------------------------------------------------

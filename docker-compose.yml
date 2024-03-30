@@ -3,39 +3,34 @@ version: '3.8'
 
 volumes:
   app-storage:
-  app-assets:
 
 services:
   backend:
     image: hydra-backend
     build:
       context: ./services/backend
+      args:
+        BUNDLE_WITHOUT: '' # keep empty
+        RAILS_ENV: development
     command: app
     volumes:
-      - ./services/backend:/opt/app
+      - ./services/backend:/work
       - app-storage:/mnt/storage
     depends_on:
       - postgres
       - redis
 
   frontend:
-    image: hydra-frontend
-    build:
-      context: ./services/frontend
+    image: hydra-backend
+    command: web
+    user: root
     volumes:
-      - ./services/frontend/config/nginx.conf:/etc/nginx/nginx.conf
-      - ./services/frontend/dist:/opt/app/dist
+      - ./services/backend:/work
       - app-storage:/mnt/storage
+    depends_on:
+      - backend
     ports:
       - 80:80
-
-  vite:
-    image: hydra-frontend
-    command: npm run build -- --watch
-    volumes:
-      - source: ./services/frontend
-        target: /opt/app
-        type: bind
 
   # Misc Services
 
@@ -46,3 +41,21 @@ services:
 
   redis:
     image: public.ecr.aws/docker/library/redis:7
+
+  mail:
+    image: axllent/mailpit:latest
+    environment:
+      MP_SMTP_AUTH_ALLOW_INSECURE: 1
+      MP_SMTP_AUTH_ACCEPT_ANY: 1
+    ports:
+      - 8025:8025
+
+  vite:
+    image: hydra-backend
+    command: ./bin/vite dev
+    volumes:
+      - source: ./services/backend
+        target: /opt/app
+        type: bind
+    ports:
+      - 3036:3036

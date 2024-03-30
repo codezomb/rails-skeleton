@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DeviseCreateUsers < ActiveRecord::Migration[7.1]
   def change
     create_table :users do |t|
@@ -10,7 +12,7 @@ class DeviseCreateUsers < ActiveRecord::Migration[7.1]
       t.datetime :reset_password_sent_at
 
       ## Rememberable
-      # t.datetime :remember_created_at
+      t.datetime :remember_created_at
 
       ## Trackable
       t.integer  :sign_in_count, default: 0, null: false
@@ -29,7 +31,6 @@ class DeviseCreateUsers < ActiveRecord::Migration[7.1]
       t.integer  :failed_attempts, default: 0, null: false # Only if lock strategy is :failed_attempts
       t.string   :unlock_token # Only if unlock strategy is :email or :both
       t.datetime :locked_at
-
 
       t.timestamps null: false
     end

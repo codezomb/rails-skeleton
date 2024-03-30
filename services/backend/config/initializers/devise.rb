@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Assuming you have not yet modified this file, each configuration option below
 # is set to its default value. Note that some are commented out while others
 # are not: uncommented lines are intended to protect your configuration from
@@ -12,7 +14,7 @@ Devise.setup do |config|
   # confirmation, reset password and unlock tokens in the database.
   # Devise will use the `secret_key_base` as its `secret_key`
   # by default. You can change it below and use your own secret key.
-  # config.secret_key = Rails.application.credentials.secret_key_base
+  # config.secret_key = 'cc37c547e43d59e62a4e7658697dfe93f76f0b160b382d5642a27ade0dd7d3a444acdea156fc664e02d27f0516a1770ab86262b4423344e711fb0a6bf8cc21e2'
 
   # ==> Controller configuration
   # Configure the parent class to the devise controllers.
@@ -22,7 +24,7 @@ Devise.setup do |config|
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class
   # with default "from" parameter.
-  config.mailer_sender = 'please-change-me-at-config-initializers-devise@example.com'
+  config.mailer_sender = Rails.application.credentials.dig(:mailer, :from)
 
   # Configure the class responsible to send e-mails.
   # config.mailer = 'Devise::Mailer'
@@ -123,9 +125,6 @@ Devise.setup do |config|
   # a value of 20 is already extremely slow: approx. 60 seconds for 1 calculation).
   config.stretches = Rails.env.test? ? 1 : 12
 
-  # Set up a pepper to generate the hashed password.
-  # config.pepper = 'f47f8073d03d2ba26ef2cde5f45a84f5f491364a0254d494083aa5446387d7a0e689fcfae1d720d4e7f72cc979471d1d25d6f9f934a3473b44045642d9450027'
-
   # Send a notification to the original email when the user's email is changed.
   # config.send_email_changed_notification = false
 
@@ -181,12 +180,12 @@ Devise.setup do |config|
   # Email regex used to validate email formats. It simply asserts that
   # one (and only one) @ exists in the given string. This is mainly
   # to give user feedback and not to assert the e-mail validity.
-  config.email_regexp = /\A[^@\s]+@[^@\s]+\z/
+  config.email_regexp = URI::MailTo::EMAIL_REGEXP
 
   # ==> Configuration for :timeoutable
   # The time you want to timeout the user session without activity. After this
   # time the user will be asked for credentials again. Default is 30 minutes.
-  # config.timeout_in = 30.minutes
+  config.timeout_in = 8.hours
 
   # ==> Configuration for :lockable
   # Defines which strategy will be used to lock an account.
@@ -212,7 +211,7 @@ Devise.setup do |config|
   # config.unlock_in = 1.hour
 
   # Warn on the last attempt before the account is locked.
-  # config.last_attempt_warning = true
+  config.last_attempt_warning = false
 
   # ==> Configuration for :recoverable
   #
@@ -226,17 +225,7 @@ Devise.setup do |config|
 
   # When set to false, does not sign a user in automatically after their password is
   # reset. Defaults to true, so a user is signed in automatically after a reset.
-  config.sign_in_after_reset_password = false
-
-  # ==> Configuration for :encryptable
-  # Allow you to use another hashing or encryption algorithm besides bcrypt (default).
-  # You can use :sha1, :sha512 or algorithms from others authentication tools as
-  # :clearance_sha1, :authlogic_sha512 (then you should set stretches above to 20
-  # for default behavior) and :restful_authentication_sha1 (then you should set
-  # stretches to 10, and copy REST_AUTH_SITE_KEY to pepper).
-  #
-  # Require the `devise-encryptable` gem when using anything other than bcrypt
-  # config.encryptor = :sha512
+  # config.sign_in_after_reset_password = true
 
   # ==> Scopes configuration
   # Turn scoped views on. Before rendering "sessions/new", it will first check for
@@ -308,10 +297,4 @@ Devise.setup do |config|
   # When set to false, does not sign a user in automatically after their password is
   # changed. Defaults to true, so a user is signed in automatically after changing a password.
   # config.sign_in_after_change_password = true
-
-  # ==> Configuration for :jwt
-
-  config.jwt do |jwt|
-    jwt.secret = Rails.application.credentials.devise_jwt_base
-  end
 end

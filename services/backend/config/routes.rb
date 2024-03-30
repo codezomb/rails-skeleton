@@ -3,8 +3,10 @@ Rails.application.routes.draw do
   mount Rswag::Ui::Engine => '/api/docs'
 
   scope(path: '/api') do
-    defaults format: :json do
-      devise_for :users
-    end
+    devise_for :users
   end
+
+  # All other routes are handled by the frontend
+  get '*path' => 'web#show', as: :web
+  root to: 'web#show'
 end
