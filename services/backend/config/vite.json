@@ -12,6 +12,7 @@
   "test": {
     "autoBuild": true,
     "publicOutputDir": "vite-test",
+    "host": "vite",
     "port": 3037
   }
 }

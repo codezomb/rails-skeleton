@@ -55,7 +55,7 @@ services:
     command: ./bin/vite dev
     volumes:
       - source: ./services/backend
-        target: /opt/app
+        target: /work
         type: bind
     ports:
       - 3036:3036
